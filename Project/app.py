@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!'
+    return 'Chào mừng các bạn đến với nhóm 24'
 
 
 @app.route('/main')
