@@ -12,3 +12,8 @@
 4. Cài các packet cần thiết trong VSCode
 
 5. Chạy Backend của web
+
+# Thư viện 
+
+pip install flask
+pip install Flask-MySQLdb
