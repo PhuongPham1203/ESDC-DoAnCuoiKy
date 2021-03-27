@@ -20,9 +20,15 @@ $(document).ready(function () {
     var token = getCookie("token");
 
     if (token == null) {
-        console.log("no token");
+        //console.log("no token");
+        if(location.href.split("/").slice(-1)!="login"){
+            window.location.replace("/login")
+        }
     } else {
-        console.log(token);
+        //console.log(token);
+        if(location.href.split("/").slice(-1)=="login"){
+            window.location.replace("/admin")
+        }
     }
 
 

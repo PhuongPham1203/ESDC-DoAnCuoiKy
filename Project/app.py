@@ -1,7 +1,8 @@
 from flask import *
-from Backends import *
+from Backends import token
 from flask_mysqldb import MySQL
 import numpy as np
+import string,random
 
 app = Flask(__name__)
 
@@ -16,6 +17,9 @@ mysql = MySQL(app)
 route_admin = "/admin"  # admin
 route_receptionist = "/receptionist"  # le tan
 
+level_admin = 1
+level_letan = 2
+
 # Hotel
 
 
@@ -29,13 +33,42 @@ def main_web():
     return 'Đây là kết quả khi chạy gọi localhost:9000/main'
 
 # Login
-
+def token_generator(size=10, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 @app.route('/login', methods=['POST'])
-def post_login():
+def post_page_login():
     if request.method == 'POST':
-        user = request.form['username']
-        return "your username is : "+str(user)
+        if(('username' in request.form) and ('password' in request.form)):
+
+            us = request.form['username']
+            pa = request.form['password']
+
+            cur = mysql.connection.cursor()
+            query = "SELECT * FROM user WHERE username=%s AND password=%s AND status_check = 1"
+            cur.execute( query,(us,pa,) )
+            
+            data = cur.fetchall()
+            data = np.asarray(data)
+            cur.close()
+            if(len(data)>0):
+                print(data[0])
+                id_user = data[0][0]
+                token = token_generator()
+                # set token to database
+                query = "UPDATE user SET token=%s WHERE id="+str(id_user)
+                cur = mysql.connection.cursor()
+                cur.execute( query,(token,) )
+                mysql.connection.commit()
+                
+                cur.close()
+                
+                rep = make_response(redirect(route_admin))
+
+                rep.set_cookie('token', token)
+                return rep
+            
+    return get_page_login()
 
 
 @app.route('/login')
@@ -48,7 +81,7 @@ def get_page_login():
     data = cur.fetchall()
     data = np.asarray(data)
     
-    print(data)
+    #print(data)
 
     cur.close()
 
@@ -59,6 +92,18 @@ def get_page_login():
 
 
 # Admin
+@app.route(route_admin) # /admin
+def get_page_admin():
+    #print(request.cookies.get('token'))
+    isTrue,rep,id_user,username_user,token_user,level = token.checktoken(request.cookies,mysql)
+
+    if(isTrue):
+        print(username_user+" "+token_user+" "+str(level))
+    else:
+        return rep
+    
+
+    return render_template("admin/index.html")
 
 
 # Receptionist
