@@ -16,6 +16,9 @@ mysql = MySQL(app)
 route_admin = "/admin"  # admin
 route_receptionist = "/receptionist"  # le tan
 
+level_admin = 1
+level_letan = 2
+
 # Hotel
 
 
@@ -32,7 +35,7 @@ def main_web():
 
 
 @app.route('/login', methods=['POST'])
-def post_login():
+def post_page_login():
     if request.method == 'POST':
         user = request.form['username']
         return "your username is : "+str(user)
@@ -59,6 +62,10 @@ def get_page_login():
 
 
 # Admin
+@app.route(route_admin) # /admin
+def get_page_admin():
+
+    return render_template("admin/index.html")
 
 
 # Receptionist
