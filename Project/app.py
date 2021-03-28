@@ -94,7 +94,7 @@ def get_page_login():
 # Admin
 @app.route(route_admin) # /admin
 def get_page_admin():
-    #print(request.cookies.get('token'))
+    print(request.cookies.get('token'))
     isTrue,rep,id_user,username_user,token_user,level = token.checktoken(request.cookies,mysql)
 
     if(isTrue):
