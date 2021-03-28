@@ -11,6 +11,7 @@ def checktoken(request_page,mysql):
     level = 0
     isTrue = False
     rep = ""
+    #print('token' in request_page)
     if('token' in request_page):
 
         query = "SELECT * FROM user WHERE token=%s AND status_check=1"
@@ -22,17 +23,19 @@ def checktoken(request_page,mysql):
         cur.close()
 
         if(len(data)>0):
-            #print(data[0])
+            print(data[0])
             isTrue = True
             id_user = data[0][0]
             username_user = data[0][1]
             token_user = data[0][3]
             level = data[0][4]
         else:
+            print("no")
             rep = make_response(redirect("/login"))
             rep.set_cookie('token', '', expires=0)
             isTrue = False
             return isTrue,rep,id_user,username_user,token_user,level
+    else:
 
-
-    return isTrue,rep,id_user,username_user,token_user,level
+        rep = make_response(redirect("/login"))
+        return isTrue,rep,id_user,username_user,token_user,level
