@@ -74,6 +74,7 @@ def post_page_login():
 @app.route('/login')
 def get_page_login():
 
+    """
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM user")
     
@@ -81,33 +82,44 @@ def get_page_login():
     data = cur.fetchall()
     data = np.asarray(data)
     
+    
     #print(data)
 
     cur.close()
-
-    
-
+    """
     return render_template("admin/login.html")
 
+@app.route('/logout')
+def get_page_logout():
+    rep = make_response(redirect("/login"))
 
+    if('token' in request.cookies):
+        rep.set_cookie('token', '', expires=0)
+
+    return rep
 
 # Admin
 @app.route(route_admin) # /admin
 def get_page_admin():
-    print(request.cookies.get('token'))
+    #print(request.cookies.get('token'))
     isTrue,rep,id_user,username_user,token_user,level = token.checktoken(request.cookies,mysql)
 
     if(isTrue):
         print(username_user+" "+token_user+" "+str(level))
+
+        data = {"username":username_user,
+                "level":level}
+
+        if(level==level_admin):
+            pass
     else:
         return rep
     
 
-    return render_template("admin/index.html")
+    return render_template("admin/index.html",data=data)
 
 
 # Receptionist
-
 
 if __name__ == '__main__':
     app.run(host='localhost', port=9000, debug=True)

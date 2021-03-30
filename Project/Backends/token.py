@@ -10,7 +10,7 @@ def checktoken(request_page,mysql):
     token_user = ""
     level = 0
     isTrue = False
-    rep = ""
+    rep = make_response(redirect("/login"))
     #print('token' in request_page)
     if('token' in request_page):
 
@@ -35,7 +35,5 @@ def checktoken(request_page,mysql):
             rep.set_cookie('token', '', expires=0)
             isTrue = False
             return isTrue,rep,id_user,username_user,token_user,level
-    else:
-
-        rep = make_response(redirect("/login"))
-        return isTrue,rep,id_user,username_user,token_user,level
+        
+    return isTrue,rep,id_user,username_user,token_user,level

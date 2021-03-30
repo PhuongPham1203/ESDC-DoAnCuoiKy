@@ -114,7 +114,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="index.html">
+                        <a href="/admin">
                             <img class="img-fluid" src="static/admin/assets/images/logo.png" alt="Theme-Logo" />
                         </a>
                         <a class="mobile-options waves-effect waves-light">
@@ -134,6 +134,7 @@
                             </li>
                         </ul>
                         <ul class="nav-right">
+                            <!--
                             <li class="header-notification">
                                 <a href="#!" class="waves-effect waves-light">
                                     <i class="ti-bell"></i>
@@ -185,11 +186,12 @@
                                     </li>
                                 </ul>
                             </li>
+                            -->
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light">
                                     <img src="static/admin/assets/images/avatar-4.jpg" class="img-radius"
                                         alt="User-Profile-Image">
-                                    <span>John Doe</span>
+                                    <span>{{data["username"]}}</span>
                                     <i class="ti-angle-down"></i>
                                 </a>
                                 <ul class="show-notification profile-notification">
@@ -214,8 +216,8 @@
                                         </a>
                                     </li>
                                     <li class="waves-effect waves-light">
-                                        <a href="auth-normal-sign-in.html">
-                                            <i class="ti-layout-sidebar-left"></i> Logout
+                                        <a href="/logout">
+                                            <i class="ti-layout-sidebar-left"></i> Đăng xuất
                                         </a>
                                     </li>
                                 </ul>
@@ -231,6 +233,7 @@
                     <nav class="pcoded-navbar">
                         <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
                         <div class="pcoded-inner-navbar main-menu">
+                            <!--
                             <div class="">
                                 <div class="main-menu-header">
                                     <img class="img-80 img-radius" src="static/admin/assets/images/avatar-4.jpg"
@@ -250,6 +253,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            
                             <div class="p-15 p-b-0">
                                 <form class="form-material">
                                     <div class="form-group form-primary">
@@ -260,9 +264,10 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="pcoded-navigation-label">Navigation</div>
+                            -->
+                            <div class="pcoded-navigation-label"></div>
                             <ul class="pcoded-item pcoded-left-item">
-                                <li class="active">
+                                <li class="">
                                     <a href="index.html" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
                                         <span class="pcoded-mtext">Dashboard</span>
@@ -270,7 +275,18 @@
                                     </a>
                                 </li>
                             </ul>
-                            <div class="pcoded-navigation-label">UI Element</div>
+                            <div class="pcoded-navigation-label">Lễ tân</div>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="">
+                                    <a href="index.html" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                        <span class="pcoded-mtext">Lễ Tân</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                    
+                                </li>
+                            </ul>
+                        <!--
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="pcoded-hasmenu">
                                     <a href="javascript:void(0)" class="waves-effect waves-dark">
@@ -345,6 +361,7 @@
                                     </ul>
                                 </li>
                             </ul>
+                        -->
                             <div class="pcoded-navigation-label">Forms</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="">
