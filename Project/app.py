@@ -4,7 +4,11 @@ from flask_mysqldb import MySQL
 import numpy as np
 import string,random
 
+def token_generator(size=10, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
+
 app = Flask(__name__)
+app.secret_key = token_generator()
 
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -33,8 +37,7 @@ def main_web():
     return 'Đây là kết quả khi chạy gọi localhost:9000/main'
 
 # Login
-def token_generator(size=10, chars=string.ascii_uppercase + string.digits):
-    return ''.join(random.choice(chars) for _ in range(size))
+
 
 @app.route('/login', methods=['POST'])
 def post_page_login():
@@ -94,18 +97,25 @@ def get_page_logout():
     rep = make_response(redirect("/login"))
 
     if('token' in request.cookies):
+        session.pop('username',None)
+        session.pop('id',None)
+        session.pop('level',None)
         rep.set_cookie('token', '', expires=0)
 
     return rep
 
-# Admin
+# ! Admin
 @app.route(route_admin) # /admin
 def get_page_admin():
     #print(request.cookies.get('token'))
     isTrue,rep,id_user,username_user,token_user,level = token.checktoken(request.cookies,mysql)
+    
 
     if(isTrue):
         print(username_user+" "+token_user+" "+str(level))
+        session['username'] = username_user
+        session['id'] = id_user
+        session['level'] = level
 
         data = {"username":username_user,
                 "level":level}
@@ -118,7 +128,24 @@ def get_page_admin():
 
     return render_template("admin/index.html",data=data)
 
+# todo : so do phong
+@app.route("/sodophong") # /sodophong
+def get_page_sodophong():
+    #print(request.cookies.get('token'))
+    isTrue,rep,id_user,username_user,token_user,level = token.checktoken(request.cookies,mysql)
 
+    if(isTrue):
+        print(username_user+" "+token_user+" "+str(level))
+
+        data = {"username":session['username'],
+                "level":session['level']}
+
+        
+    else:
+        return rep
+    
+
+    return render_template("admin/sodophong.html",data=data)
 # Receptionist
 
 if __name__ == '__main__':
