@@ -23,7 +23,7 @@ def checktoken(request_page,mysql):
         cur.close()
 
         if(len(data)>0):
-            print(data[0])
+            #print(data[0])
             isTrue = True
             id_user = data[0][0]
             username_user = data[0][1]
