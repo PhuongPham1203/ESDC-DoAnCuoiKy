@@ -39,6 +39,7 @@ $(document).ready(function () {
 function openForm() {
     //console.log("Hiển thị");
     document.getElementById("nhanphong").style.display = "block";
+    topFunction();
 }
 
 function closeForm() {

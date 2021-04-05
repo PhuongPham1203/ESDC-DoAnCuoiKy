@@ -590,10 +590,35 @@ def get_page_sodophong():
         data = {"username": session.get('username'),
                 "level": session.get('level')}
 
+    
+        cur = mysql.connection.cursor()
+        cur.execute(
+            "SELECT * FROM room WHERE status_check = 1 ORDER BY name ASC")
+        data2 = cur.fetchall()
+        data2 = np.asarray(data2)
+        cur.close()
+
+        # find all room_type avalible
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM room_type WHERE status_check = 1")
+        room_type = cur.fetchall()
+        room_type = np.asarray(room_type)
+        cur.close()
+        # print(room_type)
+        # find all room_level avalible
+        cur = mysql.connection.cursor()
+        cur.execute(
+            "SELECT * FROM room_level WHERE status_check = 1 ORDER BY name ASC")
+        room_level = cur.fetchall()
+        room_level = np.asarray(room_level)
+        cur.close()
+        # print(room_level)
+
     else:
         return rep
 
-    return render_template("admin/sodophong.html", data=data)
+
+    return render_template("admin/sodophong.html", data=data,data2=data2, room_type=room_type, room_level=room_level)
 
 
 if __name__ == '__main__':
