@@ -305,13 +305,28 @@ def get_page_capnhatgia():
 
                     print(request.form['giagio'])
                     #request.args.get("status")
-                    print(request.args.get("sogiotheogio"))    
-                    print(request.args.get("sotientheogio"))
-                    if('sogiotheogio' in request.args and 'sotientheogio' in request.args):
-                        print(request.args.get("sogiotheogio"))    
-                        print(request.args.get("sotientheogio"))
+                    #print(request.form.getlist("sogiotheogio[]"))    
+                    #print(request.form.getlist("sotientheogio[]"))
+                    if('sogiotheogio[]' in request.form and 'sotientheogio[]' in request.form):
+                        
+                        print(request.form.getlist("sogiotheogio[]"))    
+                        print(request.form.getlist("sotientheogio[]"))
+
+                        query = "INSERT INTO price (number,price,order,number_children) VALUES (%s, %s, "+str(
+                        request.form["numbera"])+","+str(request.form["numberc"])+")"
+                        cur = mysql.connection.cursor()
+                        cur.execute(
+                            query, (request.form['nameroom'], request.form['description'],))
+                        mysql.connection.commit()
+
+                        cur.close()
+
+                        data2 = cur.fetchall()
+
                     else:
                         idgiagio = 'NULL'
+                else:
+                    pass
 
                     
                 if('giangay' in request.form):
